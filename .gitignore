@@ -1,30 +1,118 @@
-# Python virtual environments
+# ==========================================
+
+# 1. Python virtual environments
+
+# ==========================================
+
 .venv/
 venv/
 env/
 
-# Python cache
-__pycache__/
-*.py[cod]
+# ==========================================
 
-# Environment variables and secrets
+# 2. Python cache files
+
+# ==========================================
+
+**pycache**/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ==========================================
+
+# 3. Environment variables and secrets
+
+# ==========================================
+
 .env
 .env.*
+!.env.example
 
-# IDE settings
+# ==========================================
+
+# 4. IDE settings
+
+# ==========================================
+
 .vscode/
 .idea/
 
-# Log files
-*.log
+# ==========================================
 
-# Temporary files
+# 5. Log and temporary files
+
+# ==========================================
+
+*.log
 *.tmp
 *.bak
+*.swp
 
-# Jupyter temporary files
+# ==========================================
+
+# 6. Jupyter Notebook
+
+# ==========================================
+
 .ipynb_checkpoints/
 
-# Operating system files
+# ==========================================
+
+# 7. Operating system files
+
+# ==========================================
+
 Thumbs.db
 .DS_Store
+Desktop.ini
+
+# ==========================================
+
+# 8. Local databases and backups
+
+# ==========================================
+
+*.db
+*.sqlite
+*.sqlite3
+*.db-journal
+
+# ==========================================
+
+# 9. Private face recognition images
+
+# ==========================================
+
+faces/
+models/known_faces.pkl
+
+# ==========================================
+
+# 10. Surveillance evidence and recordings
+
+# ==========================================
+
+evidence/
+recordings/
+
+# ==========================================
+
+# 11. Generated camera frames and status files
+
+# ==========================================
+
+data/live_frame.jpg
+data/system_status.json
+
+# ==========================================
+
+# 12. Generated model training outputs
+
+# ==========================================
+
+runs/
+outputs/
+checkpoints/
