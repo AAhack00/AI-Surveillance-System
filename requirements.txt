@@ -7,3 +7,4 @@ face-recognition
 deep-sort-realtime
 mediapipe
 pyTelegramBotAPI
+psutil
