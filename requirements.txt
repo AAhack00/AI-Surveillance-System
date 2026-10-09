@@ -1,0 +1,9 @@
+ultralytics
+opencv-python
+numpy
+pandas
+streamlit
+face-recognition
+deep-sort-realtime
+mediapipe
+pyTelegramBotAPI
