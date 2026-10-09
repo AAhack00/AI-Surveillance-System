@@ -214,11 +214,11 @@ tab1, tab2 = st.tabs(
 # LOGIN
 # =================================
 
+from pathlib import Path
+
 with tab1:
 
-    st.subheader(
-        "User Login"
-    )
+    st.subheader("User Login")
 
     username = st.text_input(
         "Username",
@@ -233,62 +233,47 @@ with tab1:
 
     if st.button("Login"):
 
-    # Get the project root directory
-    from pathlib import Path
+        # Get the project root directory
+        PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
-    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+        # Set the correct database path
+        DB_PATH = PROJECT_ROOT / "database" / "surveillance.db"
 
-    # Set the correct database path
-    DB_PATH = PROJECT_ROOT / "database" / "surveillance.db"
+        # Connect to the database
+        conn = sqlite3.connect(str(DB_PATH), timeout=30)
+        conn.row_factory = sqlite3.Row
 
-    # Check that the database directory exists
-    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            cursor = conn.cursor()
 
-    # Connect to the database
-    conn = sqlite3.connect(str(DB_PATH), timeout=30)
-    conn.row_factory = sqlite3.Row
+            cursor.execute(
+                """
+                SELECT role
+                FROM users
+                WHERE username = ?
+                AND password = ?
+                """,
+                (username, password)
+            )
 
-    try:
-        cursor = conn.cursor()
+            user = cursor.fetchone()
 
-        cursor.execute(
-            """
-            SELECT role
-            FROM users
-            WHERE username=?
-            AND password=?
-            """,
-            (username, password)
-        )
-
-        user = cursor.fetchone()
-
-        # Continue with your existing login logic here.
-        # For example, check whether user is None and handle
-        # successful authentication.
-
-    finally:
-        conn.close()
+        finally:
+            conn.close()
 
         if user:
 
             st.session_state.logged_in = True
-
-            st.session_state.role = user[0]
-
+            st.session_state.role = user["role"]
             st.session_state.username = username
 
-            st.success(
-                "Login Successful"
-            )
+            st.success("Login Successful")
 
             st.rerun()
 
         else:
 
-            st.error(
-                "Invalid Credentials"
-            )
+            st.error("Invalid Credentials")
 
 
 # =================================
