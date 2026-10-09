@@ -231,14 +231,24 @@ with tab1:
         key="login_password"
     )
 
-    if st.button(
-        "Login"
-    ):
+    if st.button("Login"):
 
-        conn = sqlite3.connect(
-            "database/surveillance.db"
-        )
+    # Get the project root directory
+    from pathlib import Path
 
+    PROJECT_ROOT = Path(__file__).resolve().parent.parent
+
+    # Set the correct database path
+    DB_PATH = PROJECT_ROOT / "database" / "surveillance.db"
+
+    # Check that the database directory exists
+    DB_PATH.parent.mkdir(parents=True, exist_ok=True)
+
+    # Connect to the database
+    conn = sqlite3.connect(str(DB_PATH), timeout=30)
+    conn.row_factory = sqlite3.Row
+
+    try:
         cursor = conn.cursor()
 
         cursor.execute(
@@ -248,14 +258,16 @@ with tab1:
             WHERE username=?
             AND password=?
             """,
-            (
-                username,
-                password
-            )
+            (username, password)
         )
 
         user = cursor.fetchone()
 
+        # Continue with your existing login logic here.
+        # For example, check whether user is None and handle
+        # successful authentication.
+
+    finally:
         conn.close()
 
         if user:
